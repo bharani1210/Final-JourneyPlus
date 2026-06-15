@@ -21,12 +21,36 @@ public class TravelPolicy {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "employee_role", nullable = false, unique = true, length = 50, columnDefinition = "VARCHAR(50)")
+    @Column(name = "employee_role", nullable = false, length = 50, columnDefinition = "VARCHAR(50)")
     private Role employeeRole;
 
     @Convert(converter = EncryptedBigDecimalConverter.class)
     @Column(name = "max_amount_per_trip", nullable = false, length = 255)
     private BigDecimal maxAmountPerTrip;
+
+    // Optional fields added to align with design (kept nullable)
+    @Column(name = "travel_type", length = 50)
+    private String travelType; // DOMESTIC / INTERNATIONAL
+
+    @Column(name = "flight_class", length = 50)
+    private String flightClass;
+
+    @Column(name = "hotel_category", length = 50)
+    private String hotelCategory;
+
+    @Convert(converter = EncryptedBigDecimalConverter.class)
+    @Column(name = "per_diem_rate", length = 255)
+    private BigDecimal perDiemRate;
+
+    @Convert(converter = EncryptedBigDecimalConverter.class)
+    @Column(name = "local_conveyance_limit", length = 255)
+    private BigDecimal localConveyanceLimit;
+
+    @Column(name = "effective_date")
+    private java.time.LocalDateTime effectiveDate;
+
+    @Column(name = "policy_status", length = 50)
+    private String policyStatus; // ACTIVE / SUPERSEDED
 
     @Column(name = "requires_visa_verification")
     private boolean requiresVisaVerification = false;

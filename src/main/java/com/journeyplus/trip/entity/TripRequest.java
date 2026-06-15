@@ -4,6 +4,8 @@ import com.journeyplus.iam.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import com.journeyplus.common.EncryptedBigDecimalConverter;
 
 @Entity
 @Table(name = "trip_requests")
@@ -28,6 +30,13 @@ public class TripRequest {
 
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
+
+    @Column(name = "travel_type", length = 50)
+    private String travelType; // DOMESTIC / INTERNATIONAL
+
+    @Convert(converter = EncryptedBigDecimalConverter.class)
+    @Column(name = "estimated_cost", length = 255)
+    private BigDecimal estimatedCost;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50)")

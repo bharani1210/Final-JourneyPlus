@@ -58,6 +58,14 @@ public class ExpenseClaim {
     @Column(name = "usd_equivalent", nullable = false, length = 255)
     private BigDecimal usdEquivalent = BigDecimal.ZERO;
 
+    @Convert(converter = EncryptedBigDecimalConverter.class)
+    @Column(name = "advance_adjusted", length = 255)
+    private BigDecimal advanceAdjusted = BigDecimal.ZERO;
+
+    @Convert(converter = EncryptedBigDecimalConverter.class)
+    @Column(name = "net_reimbursable", length = 255)
+    private BigDecimal netReimbursable = BigDecimal.ZERO;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50)")
     private ExpenseStatus status = ExpenseStatus.DRAFT;
@@ -67,6 +75,10 @@ public class ExpenseClaim {
 
     @Column(name = "finance_comments", columnDefinition = "TEXT")
     private String financeComments;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "approver_id")
+    private com.journeyplus.iam.entity.User approver;
 
     public ExpenseClaim() {}
 
@@ -179,5 +191,29 @@ public class ExpenseClaim {
 
     public void setFinanceComments(String financeComments) {
         this.financeComments = financeComments;
+    }
+
+    public BigDecimal getAdvanceAdjusted() {
+        return advanceAdjusted;
+    }
+
+    public void setAdvanceAdjusted(BigDecimal advanceAdjusted) {
+        this.advanceAdjusted = advanceAdjusted;
+    }
+
+    public BigDecimal getNetReimbursable() {
+        return netReimbursable;
+    }
+
+    public void setNetReimbursable(BigDecimal netReimbursable) {
+        this.netReimbursable = netReimbursable;
+    }
+
+    public com.journeyplus.iam.entity.User getApprover() {
+        return approver;
+    }
+
+    public void setApprover(com.journeyplus.iam.entity.User approver) {
+        this.approver = approver;
     }
 }

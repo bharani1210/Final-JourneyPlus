@@ -42,6 +42,9 @@ public class Reimbursement {
     @Column(name = "payment_date", nullable = false)
     private LocalDate paymentDate = LocalDate.now();
 
+    @Column(name = "status", nullable = false, length = 50)
+    private String status = "PENDING"; // PENDING, PROCESSED, FAILED
+
     public Reimbursement() {}
 
     public Reimbursement(ExpenseClaim expenseClaim, User recipient, BigDecimal amount, String originalCurrency, BigDecimal usdEquivalent, String paymentMethod, String transactionReference) {
@@ -126,5 +129,13 @@ public class Reimbursement {
 
     public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

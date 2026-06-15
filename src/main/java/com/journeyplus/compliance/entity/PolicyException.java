@@ -19,12 +19,20 @@ public class PolicyException {
     private ComplianceAudit complianceAudit;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "claim_id")
+    private com.journeyplus.expense.entity.ExpenseClaim claim;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "policy_id")
     private TravelPolicy policy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "expense_line_id", nullable = false)
     private ExpenseLine expenseLine;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exception_approver_id")
+    private com.journeyplus.iam.entity.User exceptionApprover;
 
     @Column(name = "violation_type", nullable = false, length = 100)
     private String violationType; // DAILY_ALLOWANCE_EXCEEDED, TRIP_LIMIT_EXCEEDED
@@ -48,6 +56,22 @@ public class PolicyException {
         this.violationType = violationType;
         this.amountExceeded = amountExceeded;
         this.approvalStatus = "PENDING";
+    }
+
+    public com.journeyplus.expense.entity.ExpenseClaim getClaim() {
+        return claim;
+    }
+
+    public void setClaim(com.journeyplus.expense.entity.ExpenseClaim claim) {
+        this.claim = claim;
+    }
+
+    public com.journeyplus.iam.entity.User getExceptionApprover() {
+        return exceptionApprover;
+    }
+
+    public void setExceptionApprover(com.journeyplus.iam.entity.User exceptionApprover) {
+        this.exceptionApprover = exceptionApprover;
     }
 
     // Getters and Setters

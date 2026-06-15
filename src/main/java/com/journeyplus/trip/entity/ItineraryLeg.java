@@ -4,6 +4,7 @@ import com.journeyplus.common.EncryptedBigDecimalConverter;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "itinerary_legs")
@@ -28,6 +29,12 @@ public class ItineraryLeg {
 
     @Column(name = "travel_date", nullable = false)
     private LocalDate travelDate;
+
+    @Column(name = "departure_date_time")
+    private LocalDateTime departureDateTime;
+
+    @Column(name = "arrival_date_time")
+    private LocalDateTime arrivalDateTime;
 
     @Column(name = "carrier_details", length = 150)
     private String carrierDetails;

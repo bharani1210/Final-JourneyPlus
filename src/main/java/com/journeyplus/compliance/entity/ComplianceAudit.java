@@ -18,6 +18,10 @@ public class ComplianceAudit {
     private ExpenseLine expenseLine;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "claim_id")
+    private com.journeyplus.expense.entity.ExpenseClaim claim;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auditor_id")
     private User auditor;
 
@@ -42,6 +46,14 @@ public class ComplianceAudit {
         this.violationsFound = violationsFound;
         this.auditNotes = auditNotes;
         this.auditDate = LocalDateTime.now();
+    }
+
+    public com.journeyplus.expense.entity.ExpenseClaim getClaim() {
+        return claim;
+    }
+
+    public void setClaim(com.journeyplus.expense.entity.ExpenseClaim claim) {
+        this.claim = claim;
     }
 
     // Getters and Setters

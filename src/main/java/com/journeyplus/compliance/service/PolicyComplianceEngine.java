@@ -84,6 +84,15 @@ public class PolicyComplianceEngine {
                     "Automated policy compliance check failed."
             );
             ComplianceAudit savedAudit = complianceAuditRepository.save(audit);
+            // Attach claim reference to audit (optional, aligns with design)
+            try {
+                if (claim != null) {
+                    savedAudit.setClaim(claim);
+                    complianceAuditRepository.save(savedAudit);
+                }
+            } catch (Exception e) {
+                // do not fail compliance flow for audit linking
+            }
 
             PolicyException exception = new PolicyException(
                     savedAudit,
@@ -92,6 +101,10 @@ public class PolicyComplianceEngine {
                     "POLICY_LIMIT_EXCEEDED",
                     exceededAmount
             );
+            // Link to claim when available
+            if (claim != null) {
+                exception.setClaim(claim);
+            }
             policyExceptionRepository.save(exception);
         } else {
             line.setPolicyComplianceStatus("COMPLIANT");
@@ -104,7 +117,15 @@ public class PolicyComplianceEngine {
                     null,
                     "Automated policy compliance check passed successfully."
             );
-            complianceAuditRepository.save(audit);
+            ComplianceAudit saved = complianceAuditRepository.save(audit);
+            try {
+                if (claim != null) {
+                    saved.setClaim(claim);
+                    complianceAuditRepository.save(saved);
+                }
+            } catch (Exception e) {
+                // ignore linking failures
+            }
         }
     }
 }
